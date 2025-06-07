@@ -59,6 +59,24 @@
           "url": "https://en.pronouns.page/@LunaUwU",
           "emoji": "⚧️",
           "desc": "Because why not."
+        },
+        {
+          "title": "Discord Profile",
+          "url": "discord://-/users/257124488141864960",
+          "emoji": "👾",
+          "desc": "Please do not randomly add me."
+        },
+        {
+          "title": "YouTube",
+          "url": "https://www.youtube.com/@lunalikesgirls",
+          "emoji": "📺",
+          "desc": "My YouTube channel is currently inactive."
+        },
+        {
+          "title": "TikTok",
+          "url": "https://www.tiktok.com/@imlunauwu",
+          "emoji": "📹",
+          "desc": "Like my YT, TikTok is also more or less inactive."
         }
       ]
     },
@@ -87,6 +105,23 @@
           "url": "https://github.com/ImLunaUwU/Audio-Mixer/",
           "emoji": "🎛️",
           "desc": "Free and simple alternative to VoiceMeeter"
+        }
+      ]
+    },
+    {
+      "name": "Business Stuff",
+      "links": [
+        {
+          "title": "Email",
+          "url": "mailto://contact@lunauwu.net",
+          "emoji": "📧",
+          "desc": "My business email. Do not mail me randomly, you will be blocked."
+        },
+        {
+          "title": "Discord Profile",
+          "url": "discord://-/users/257124488141864960",
+          "emoji": "👾",
+          "desc": "Yes I use my Discord for business as well."
         }
       ]
     }
