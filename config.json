@@ -1,0 +1,94 @@
+{
+  "name": "Luna",
+  "bio": "Digital chaos gremlin & toolmaker. Former gang monkey, retired staff for larger groups & The Furry Hideout. Also, I am happily taken so stop trying to fuck me. Please. Weirdos will be blocked on sight.",
+  "avatar": "https://avatars.githubusercontent.com/u/32457983?v=4",
+  "bioStyle": "terminal",
+  "discordId": "257124488141864960",
+  "profile": {
+    "altnames": "Lulu, Lu, Luni",
+    "pronouns": "She/Her/They/Them",
+    "location": "Denmark"
+  },
+  "categories": [
+    {
+      "name": "Main Links",
+      "links": [
+        {
+          "title": "Developer Website",
+          "url": "https://imluna.dev",
+          "emoji": "🤓",
+          "desc": "Nerdy shit inbound"
+        },
+        {
+          "title": "Personal Website",
+          "url": "https://lunauwu.net",
+          "emoji": "👀",
+          "desc": "Learn more about me"
+        },
+        {
+          "title": "Ko-fi",
+          "url": "https://ko-fi.com/imlunauwu",
+          "emoji": "☕",
+          "desc": "Support me with caffeine"
+        }
+      ]
+    },
+    {
+      "name": "Socials",
+      "links": [
+        {
+          "title": "GitHub",
+          "url": "https://github.com/ImLunaUwU",
+          "emoji": "💻",
+          "desc": "My code playground"
+        },
+        {
+          "title": "Twitter (X)",
+          "url": "https://x.com/ImLunaUwU",
+          "emoji": "🐦",
+          "desc": "Look at my weird tweets (Little Activity)"
+        },
+        {
+          "title": "VRChat Profile",
+          "url": "https://vrchat.com/home/user/usr_75f061d8-6189-443c-b83c-0e8f9f01c153",
+          "emoji": "🕶️",
+          "desc": "Please talk to me before adding."
+        },
+        {
+          "title": "Pronouns Page",
+          "url": "https://en.pronouns.page/@LunaUwU",
+          "emoji": "⚧️",
+          "desc": "Because why not."
+        }
+      ]
+    },
+    {
+      "name": "Adventurous Allies",
+      "links": [
+        {
+          "title": "VRChat Group",
+          "url": "https://vrchat.com/home/group/grp_3fa5f999-a8b0-473b-8d20-53f1157b2c28",
+          "emoji": "🧭",
+          "desc": "Join our VRChat Group!"
+        },
+        {
+          "title": "Discord",
+          "url": "https://discord.gg/AdventurousAllies",
+          "emoji": "💬",
+          "desc": "Chat with the community!"
+        }
+      ]
+    },
+    {
+      "name": "Recent Projects",
+      "links": [
+        {
+          "title": "Audio Mixer",
+          "url": "https://github.com/ImLunaUwU/Audio-Mixer/",
+          "emoji": "🎛️",
+          "desc": "Free and simple alternative to VoiceMeeter"
+        }
+      ]
+    }
+  ]
+}
