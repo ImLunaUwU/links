@@ -141,7 +141,7 @@ if (config.discordId) {
 
         ${customStatus ? `
           <div class="dc-activity">
-            <div class="dc-label">Custom Status</div>
+            <div class="dc-label">Current Status</div>
             <div class="dc-content">
               ${customStatus.emoji?.id ? `
                 <img class="emoji" src="https://cdn.discordapp.com/emojis/${customStatus.emoji.id}.${customStatus.emoji.animated ? "gif" : "png"}" />
@@ -164,8 +164,8 @@ if (config.discordId) {
           <div class="dc-activity">
             <div class="dc-label">Listening to Spotify</div>
             <div class="dc-content">
-              <strong>${spotify.song}</strong><br />
-              <span>${spotify.artist}</span>
+              <strong>${spotify.song}</strong><br><i>by</i><br>
+              <strong><span>${spotify.artist}</span></strong>
             </div>
           </div>
         ` : ""}
