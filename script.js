@@ -7,21 +7,121 @@ fetch("config.json")
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) body.dataset.theme = savedTheme;
 
-document.getElementById("themeToggle").onclick = () => {
-  const newTheme = body.dataset.theme === "dark" ? "light" : "dark";
-  body.dataset.theme = newTheme;
-  localStorage.setItem("theme", newTheme);
-  updateThemeIcon(newTheme);
-};
+    document.getElementById("themeToggle").onclick = () => {
+      const newTheme = body.dataset.theme === "dark" ? "light" : "dark";
+      body.dataset.theme = newTheme;
+      localStorage.setItem("theme", newTheme);
+      updateThemeIcon(newTheme);
+    };
+    
+    // Set icon on load
+    updateThemeIcon(body.dataset.theme);
+    
+    function updateThemeIcon(theme) {
+      const icon = theme === "dark" ? "☀️" : "🌙";
+      document.getElementById("themeToggle").textContent = icon;
+    }
 
-// Set icon on load
-updateThemeIcon(body.dataset.theme);
+    // Trigger Birthday Effect
+    function showBirthdayBanner(message) {
+      const banner = document.getElementById("birthdayBanner");
+      banner.textContent = message;
+      banner.style.display = "block";
+      banner.style.background = "#ff4081";
+      banner.style.color = "#fff";
+      banner.style.textAlign = "center";
+      banner.style.padding = "10px";
+      banner.style.fontSize = "1rem";
+      banner.style.fontWeight = "bold";
+      banner.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.3)";
+    }
 
-function updateThemeIcon(theme) {
-  const icon = theme === "dark" ? "☀️" : "🌙";
-  document.getElementById("themeToggle").textContent = icon;
-}
-
+    function triggerBirthdayEffect() {
+      const canvas = document.createElement("canvas");
+      canvas.id = "confetti";
+      canvas.style.position = "fixed";
+      canvas.style.top = 0;
+      canvas.style.left = 0;
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.pointerEvents = "none";
+      canvas.style.zIndex = "9999";
+      document.body.appendChild(canvas);
+    
+      const ctx = canvas.getContext("2d");
+      let W = (canvas.width = window.innerWidth);
+      let H = (canvas.height = window.innerHeight);
+    
+      const confetti = [];
+      const confettiCount = 100;
+      const gravity = 0.15;
+      const drag = 0.02;
+      const terminalVelocity = 2.5;
+    
+      const colors = ["#f94144", "#f3722c", "#f9c74f", "#90be6d", "#577590", "#43aa8b"];
+    
+      window.addEventListener("resize", () => {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      });
+    
+      for (let i = 0; i < confettiCount; i++) {
+        confetti.push({
+          color: colors[Math.floor(Math.random() * colors.length)],
+          x: Math.random() * W,
+          y: Math.random() * -H,
+          dx: Math.random() * 2 - 1,
+          dy: Math.random() * 1,
+          radius: Math.random() * 6 + 4,
+          rotation: Math.random() * 360,
+          rotationSpeed: (Math.random() - 0.5) * 4,
+          wobble: Math.random() * 2 * Math.PI,
+          wobbleSpeed: 0.01 + Math.random() * 0.015,
+          opacity: Math.random() * 0.5 + 0.4
+        });
+      }
+    
+      function drawConfetti() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < confetti.length; i++) {
+          const p = confetti[i];
+    
+          p.dy += gravity;
+          p.dy = Math.min(p.dy, terminalVelocity);
+          p.dx *= (1 - drag);
+          p.x += p.dx + Math.cos(p.wobble);
+          p.y += p.dy;
+          p.rotation += p.rotationSpeed;
+          p.wobble += p.wobbleSpeed;
+    
+          // Respawn when off screen
+          if (p.y > H) {
+            p.x = Math.random() * W;
+            p.y = -20;
+            p.dy = 0;
+            p.dx = Math.random() * 2 - 1;
+          }
+    
+          ctx.save();
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.opacity;
+          ctx.beginPath();
+          ctx.ellipse(p.x, p.y, p.radius * 0.6, p.radius, p.rotation, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+    
+        requestAnimationFrame(drawConfetti);
+      }
+    
+      drawConfetti();
+    
+      setTimeout(() => {
+        canvas.style.transition = "opacity 1.5s ease";
+        canvas.style.opacity = 0;
+        setTimeout(() => canvas.remove(), 2000);
+      }, 12000);
+    }
 
     // Profile
     document.getElementById("avatar").src = config.avatar;
@@ -29,8 +129,8 @@ function updateThemeIcon(theme) {
 
     // Time-based greeting
     const h = new Date().getHours();
-    const greeting = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
-    document.getElementById("greeting").textContent = `${greeting}, I’m ${config.name.split(" ")[0]} 🌙`;
+    const greeting = h < 6 ? "Hello there, fellow insomniac!" : h < 12 ? "Good morning," : h < 18 ? "Good afternoon," : "Good evening,";
+    document.getElementById("greeting").textContent = `${greeting} I’m ${config.name.split(" ")[0]} 🌙`;
 
     // Typing effect
     const bioEl = document.getElementById("bio");
@@ -43,11 +143,35 @@ function updateThemeIcon(theme) {
     };
     typeText();
 
-    // Profile card
+    // Bio card & birthday effect 🎂
+    const birthday = new Date(config.birthday.date);
+    const now = new Date().toLocaleString("en-US", { timeZone: config.birthday.timezone });
+    const today = new Date(now);
+    
+    // Normalize year for comparison
+    const thisYearBirthday = new Date(today.getFullYear(), birthday.getMonth(), birthday.getDate());
+    const diffMs = thisYearBirthday - today;
+    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+    
+    let age = today.getFullYear() - birthday.getFullYear();
+    if (diffDays > 0) age--; // hasn't had birthday yet this year
+    
+    const isToday = diffDays === 0;
+    const isSoon = diffDays > 0 && diffDays <= 7;
+    
+    if (isToday) {
+      triggerBirthdayEffect();
+      showBirthdayBanner(`🎉 Today is ${config.name.split(" ")[0]}'s birthday! 🎉`);
+    } else if (isSoon) {
+      showBirthdayBanner(`🎂 It is ${config.name.split(" ")[0]}'s birthday in ${diffDays} day${diffDays > 1 ? "s" : ""}`);
+    }
+    
+    // Age in profile
     document.getElementById("profileCard").innerHTML = `
       <p><strong>Alternative Names:</strong> ${config.profile.altnames}</p>
       <p><strong>Pronouns:</strong> ${config.profile.pronouns}</p>
       <p><strong>Location:</strong> ${config.profile.location}</p>
+      <p><strong>Age:</strong> ${age}</p>
     `;
 
     // Links

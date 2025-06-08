@@ -9,6 +9,10 @@
     "pronouns": "She/Her/They/Them",
     "location": "Denmark"
   },
+  "birthday": {
+    "date": "2004-06-15",
+    "timezone": "Europe/Copenhagen"
+  },
   "categories": [
     {
       "name": "Main Links",

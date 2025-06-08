@@ -206,7 +206,7 @@ canvas#bg-canvas {
   height: 22px;
   margin-left: 4px;
   vertical-align: middle;
-  transform: translateY(-1px); /* optional tweak */
+  transform: translateY(-1px);
 }
 
 .dc-activity {
