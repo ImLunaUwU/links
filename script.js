@@ -166,7 +166,7 @@ fetch("config.json")
       showBirthdayBanner(`🎂 It is ${config.name.split(" ")[0]}'s birthday in ${diffDays} day${diffDays > 1 ? "s" : ""}`);
     }
     
-    // Age in profile
+    // Info in profile
     document.getElementById("profileCard").innerHTML = `
       <p><strong>Alternative Names:</strong> ${config.profile.altnames}</p>
       <p><strong>Pronouns:</strong> ${config.profile.pronouns}</p>
@@ -198,6 +198,52 @@ fetch("config.json")
         linksEl.appendChild(a);
       });
     });
+
+    // Next Con
+    if (config.nextCon && config.nextCon.name && config.nextCon.startDate && config.nextCon.endDate) {
+      const today = new Date();
+      const startDate = new Date(config.nextCon.startDate);
+      const endDate = new Date(config.nextCon.endDate);
+    
+      const diffToStart = Math.ceil((startDate - today) / (1000 * 60 * 60 * 24));
+      const diffToEnd = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
+      const diffAfterEnd = Math.ceil((today - endDate) / (1000 * 60 * 60 * 24));
+      if (diffAfterEnd > 3) return;
+    
+      const conInfo = document.createElement("div");
+      conInfo.style.position = "sticky";
+      conInfo.style.top = "0";
+      conInfo.style.width = "100%";
+      conInfo.style.zIndex = "1000";
+      conInfo.style.display = "flex";
+      conInfo.style.justifyContent = "center";
+      conInfo.style.alignItems = "center";
+      conInfo.style.fontWeight = "bold";
+      conInfo.style.fontSize = "0.95rem";
+      conInfo.style.padding = "0.6rem 1rem";
+      conInfo.style.color = "white";
+      conInfo.style.background = "linear-gradient(90deg, #5865F2, #404EED)";
+      conInfo.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
+      conInfo.style.gap = "0.5rem";
+    
+      const icon = document.createElement("span");
+      const text = document.createElement("span");
+    
+      if (diffToStart > 0) {
+        icon.textContent = "🎉";
+        text.textContent = `Next convention: ${config.nextCon.name} in ${diffToStart} day${diffToStart !== 1 ? "s" : ""} - See you in ${config.nextCon.location}!`;
+      } else if (diffToStart <= 0 && diffToEnd >= 0) {
+        icon.textContent = "🦊";
+        text.textContent = `${config.nextCon.name} is happening now! Come say hi! - ${config.nextCon.location}`;
+      } else {
+        icon.textContent = "✨";
+        text.textContent = `${config.nextCon.name} has ended! Hope you had an amazing time in ${config.nextCon.location}!`;
+      }
+    
+      conInfo.appendChild(icon);
+      conInfo.appendChild(text);
+      document.body.prepend(conInfo);
+    }
 
     // Discord status badge
 if (config.discordId) {
