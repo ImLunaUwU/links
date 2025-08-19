@@ -171,6 +171,7 @@ fetch("config.json")
       <p><strong>Alternative Names:</strong> ${config.profile.altnames}</p>
       <p><strong>Pronouns:</strong> ${config.profile.pronouns}</p>
       <p><strong>Location:</strong> ${config.profile.location}</p>
+      <p><strong>Relationship:</strong> ${config.profile.relationship}</p>
       <p><strong>Age:</strong> ${age}</p>
     `;
 
