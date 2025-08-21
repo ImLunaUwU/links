@@ -200,51 +200,53 @@ fetch("config.json")
       });
     });
 
-    // Next Con
-    if (config.nextCon && config.nextCon.name && config.nextCon.startDate && config.nextCon.endDate) {
-      const today = new Date();
-      const startDate = new Date(config.nextCon.startDate);
-      const endDate = new Date(config.nextCon.endDate);
-    
-      const diffToStart = Math.ceil((startDate - today) / (1000 * 60 * 60 * 24));
-      const diffToEnd = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
-      const diffAfterEnd = Math.ceil((today - endDate) / (1000 * 60 * 60 * 24));
-      if (diffAfterEnd > 3) return;
-    
-      const conInfo = document.createElement("div");
-      conInfo.style.position = "sticky";
-      conInfo.style.top = "0";
-      conInfo.style.width = "100%";
-      conInfo.style.zIndex = "1000";
-      conInfo.style.display = "flex";
-      conInfo.style.justifyContent = "center";
-      conInfo.style.alignItems = "center";
-      conInfo.style.fontWeight = "bold";
-      conInfo.style.fontSize = "0.95rem";
-      conInfo.style.padding = "0.6rem 1rem";
-      conInfo.style.color = "white";
-      conInfo.style.background = "linear-gradient(90deg, #5865F2, #404EED)";
-      conInfo.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
-      conInfo.style.gap = "0.5rem";
-    
-      const icon = document.createElement("span");
-      const text = document.createElement("span");
-    
-      if (diffToStart > 0) {
-        icon.textContent = "🎉";
-        text.textContent = `Next convention: ${config.nextCon.name} in ${diffToStart} day${diffToStart !== 1 ? "s" : ""} - See you in ${config.nextCon.location}!`;
-      } else if (diffToStart <= 0 && diffToEnd >= 0) {
-        icon.textContent = "🦊";
-        text.textContent = `${config.nextCon.name} is happening now! Come say hi! - ${config.nextCon.location}`;
-      } else {
-        icon.textContent = "✨";
-        text.textContent = `${config.nextCon.name} has ended! Hope you had an amazing time in ${config.nextCon.location}!`;
-      }
-    
-      conInfo.appendChild(icon);
-      conInfo.appendChild(text);
-      document.body.prepend(conInfo);
+// Next Con
+if (config.nextCon && config.nextCon.name && config.nextCon.startDate && config.nextCon.endDate) {
+  const tz =
+    config.nextCon.timezone ||
+    (config.birthday && config.birthday.timezone) ||
+    "Europe/Copenhagen";
+
+  const now = new Date(new Date().toLocaleString("en-US", { timeZone: tz }));
+  const startDate = new Date(config.nextCon.startDate + "T00:00:00");
+  const endDate   = new Date(config.nextCon.endDate   + "T23:59:59");
+
+  const dayMs = 1000 * 60 * 60 * 24;
+  const diffToStart   = Math.ceil((startDate - now) / dayMs);
+  const diffToEnd     = Math.ceil((endDate   - now) / dayMs);
+  const diffAfterEnd  = Math.floor((now - endDate) / dayMs);
+
+  if (diffAfterEnd <= 3) {
+    const conBanner = document.createElement("div");
+
+    conBanner.id = "conBanner";
+    conBanner.style.display = "block";
+    conBanner.style.background = "linear-gradient(90deg, #5865F2, #404EED)";
+    conBanner.style.color = "#fff";
+    conBanner.style.textAlign = "center";
+    conBanner.style.padding = "10px";
+    conBanner.style.fontSize = "1rem";
+    conBanner.style.fontWeight = "bold";
+    conBanner.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.3)";
+    conBanner.style.maxWidth = "100%";
+    conBanner.style.boxSizing = "border-box";
+    conBanner.style.overflow = "hidden";
+    conBanner.style.wordBreak = "break-word";
+    conBanner.style.overflowWrap = "anywhere"; 
+
+    let msg = "";
+    if (diffToStart > 0) {
+      msg = `🎉 Next convention: ${config.nextCon.name} in ${diffToStart} day${diffToStart !== 1 ? "s" : ""} — ${config.nextCon.location}`;
+    } else if (diffToStart <= 0 && diffToEnd >= 0) {
+      msg = `🦊 ${config.nextCon.name} is happening now! — ${config.nextCon.location}`;
+    } else {
+      msg = `✨ ${config.nextCon.name} has ended — hope you had an amazing time in ${config.nextCon.location}!`;
     }
+    conBanner.textContent = msg;
+
+    document.body.prepend(conBanner);
+  }
+}
 
     // Discord status badge
 if (config.discordId) {
