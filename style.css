@@ -68,6 +68,24 @@ header {
   transform: scale(1.1);
 }
 
+#secretFox {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 48px;
+  height: 48px;
+  background-color: #ffffff00;
+  color: #ffffff;
+  border: 2px solid #ffffff00;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  cursor: pointer;
+}
+
 .link-category-title {
   font-size: 1.2rem;
   margin-top: 2rem;

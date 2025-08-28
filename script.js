@@ -394,3 +394,60 @@ function animate() {
   requestAnimationFrame(animate);
 }
 animate();
+
+    document.getElementById("secretFox").onclick = () => {
+      const mediaContainer = document.createElement("div");
+      mediaContainer.style.position = "fixed";
+      mediaContainer.style.top = "50%";
+      mediaContainer.style.left = "50%";
+      mediaContainer.style.transform = "translate(-50%, -50%)";
+      mediaContainer.style.zIndex = "10000";
+      mediaContainer.style.background = "rgba(0,0,0,0.7)";
+      mediaContainer.style.borderRadius = "16px";
+      mediaContainer.style.padding = "16px";
+      mediaContainer.style.boxShadow = "0 4px 16px rgba(0,0,0,0.4)";
+      mediaContainer.style.display = "flex";
+      mediaContainer.style.flexDirection = "column";
+      mediaContainer.style.alignItems = "center";
+
+      // Play audio
+      const audio = new Audio("funky.mp3");
+      audio.volume = 0.1;
+      audio.play();
+
+      // Show fox.gif or eepy.webp randomly
+      let mediaEl;
+      if (Math.random() < 0.5) {
+        mediaEl = document.createElement("img");
+        mediaEl.src = "fox.gif";
+        mediaEl.alt = "Fox";
+        mediaEl.style.maxWidth = "320px";
+        mediaEl.style.borderRadius = "12px";
+      } else {
+        mediaEl = document.createElement("img");
+        mediaEl.src = "eepy.webp";
+        mediaEl.alt = "Eepy";
+        mediaEl.style.maxWidth = "320px";
+        mediaEl.style.borderRadius = "12px";
+      }
+      mediaContainer.appendChild(mediaEl);
+
+      // Close button
+      const closeBtn = document.createElement("button");
+      closeBtn.textContent = "Close";
+      closeBtn.style.marginTop = "12px";
+      closeBtn.style.padding = "6px 18px";
+      closeBtn.style.borderRadius = "8px";
+      closeBtn.style.border = "none";
+      closeBtn.style.background = "#ff4081";
+      closeBtn.style.color = "#fff";
+      closeBtn.style.fontWeight = "bold";
+      closeBtn.style.cursor = "pointer";
+      closeBtn.onclick = () => {
+        audio.pause();
+        mediaContainer.remove();
+      };
+      mediaContainer.appendChild(closeBtn);
+
+      document.body.appendChild(mediaContainer);
+    };
