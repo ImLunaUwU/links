@@ -395,7 +395,11 @@ function animate() {
 }
 animate();
 
+    let foxModalOpen = false;
     document.getElementById("secretFox").onclick = () => {
+      if (foxModalOpen) return;
+      foxModalOpen = true;
+
       const mediaContainer = document.createElement("div");
       mediaContainer.style.position = "fixed";
       mediaContainer.style.top = "50%";
@@ -446,6 +450,7 @@ animate();
       closeBtn.onclick = () => {
         audio.pause();
         mediaContainer.remove();
+        foxModalOpen = false;
       };
       mediaContainer.appendChild(closeBtn);
 
