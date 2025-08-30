@@ -132,17 +132,6 @@ fetch("config.json")
     const greeting = h < 6 ? "Hello there, fellow insomniac!" : h < 12 ? "Good morning," : h < 18 ? "Good afternoon," : "Good evening,";
     document.getElementById("greeting").textContent = `${greeting} I’m ${config.name.split(" ")[0]} 🌙`;
 
-    // Typing effect
-    const bioEl = document.getElementById("bio");
-    let i = 0;
-    const typeText = () => {
-      if (i <= config.bio.length) {
-        bioEl.textContent = config.bio.slice(0, i++);
-        setTimeout(typeText, 40);
-      }
-    };
-    typeText();
-
     // Bio card & birthday effect 🎂
     const birthday = new Date(config.birthday.date);
     const now = new Date().toLocaleString("en-US", { timeZone: config.birthday.timezone });
@@ -177,26 +166,109 @@ fetch("config.json")
 
     // Links
     const linksEl = document.getElementById("links");
+    let nsfwModalOpen = false;
+    let nsfwModal = null;
+
+    function showNSFWModal(link, openInNewTab) {
+      if (nsfwModalOpen) return;
+      nsfwModalOpen = true;
+
+      nsfwModal = document.createElement("div");
+      nsfwModal.style.position = "fixed";
+      nsfwModal.style.top = "0";
+      nsfwModal.style.left = "0";
+      nsfwModal.style.width = "100vw";
+      nsfwModal.style.height = "100vh";
+      nsfwModal.style.background = "rgba(0,0,0,0.6)";
+      nsfwModal.style.display = "flex";
+      nsfwModal.style.alignItems = "center";
+      nsfwModal.style.justifyContent = "center";
+      nsfwModal.style.zIndex = "99999";
+
+      const modalContent = document.createElement("div");
+      modalContent.style.background = "#222";
+      modalContent.style.color = "#fff";
+      modalContent.style.padding = "24px";
+      modalContent.style.borderRadius = "12px";
+      modalContent.style.boxShadow = "0 4px 16px rgba(0,0,0,0.4)";
+      modalContent.style.textAlign = "center";
+      modalContent.innerHTML = `
+      <div style="font-size:2rem; margin-bottom:12px;">🔞</div>
+      <div style="margin-bottom:16px;">
+      This link contains NSFW/adult content.<br>
+      Are you 18 years or older?<br>
+      Continue at your own discretion.
+      </div>
+      <button id="nsfwYes" style="margin:8px 12px 0 0; padding:8px 24px; border-radius:8px; border:none; background:#ff4081; color:#fff; font-weight:bold; cursor:pointer;">Yes, continue</button>
+      <button id="nsfwNo" style="margin:8px 0 0 12px; padding:8px 24px; border-radius:8px; border:none; background:#888; color:#fff; font-weight:bold; cursor:pointer;">No, cancel</button>
+      `;
+
+      nsfwModal.appendChild(modalContent);
+      document.body.appendChild(nsfwModal);
+
+      // Button handlers
+      modalContent.querySelector("#nsfwYes").onclick = () => {
+      if (openInNewTab) {
+        window.open(link.url, "_blank");
+      } else {
+        window.location.href = link.url;
+      }
+      closeNSFWModal();
+      };
+      modalContent.querySelector("#nsfwNo").onclick = closeNSFWModal;
+
+      // Click outside closes modal
+      nsfwModal.onclick = (e) => {
+      if (e.target === nsfwModal) closeNSFWModal();
+      };
+
+      function closeNSFWModal() {
+      if (nsfwModal) nsfwModal.remove();
+      nsfwModalOpen = false;
+      nsfwModal = null;
+      }
+    }
+
     config.categories.forEach(cat => {
       // Add category title as a plain heading
       const title = document.createElement("h2");
       title.textContent = cat.name;
       title.className = "link-category-title"; // Optional for styling
       linksEl.appendChild(title);
-    
+
       // Render links directly under the heading
       cat.links.forEach(link => {
-        const a = document.createElement("a");
-        a.className = "link-card";
-        a.href = link.url;
-        a.target = "_blank";
-        a.innerHTML = `
-          <div class="link-emoji">${link.emoji}</div>
-          <div>
-            <div><strong>${link.title}</strong></div>
-            <div class="link-preview">${link.desc}</div>
-          </div>`;
-        linksEl.appendChild(a);
+      const isNSFW = link.nsfw === true || link.nsfw === "true";
+      // Respect link.newtab if present, otherwise default to true
+      const openInNewTab = link.hasOwnProperty("newtab")
+        ? (link.newtab === true || link.newtab === "true")
+        : true;
+
+      const a = document.createElement("a");
+      a.className = "link-card";
+      a.href = link.url;
+      if (openInNewTab) a.target = "_blank";
+      a.innerHTML = `
+        <div class="link-emoji">${link.emoji}</div>
+        <div>
+        <div><strong>${link.title}</strong>${isNSFW ? ' <span style="color:#ff4081;font-size:1.2em;" title="NSFW">🔞</span>' : ''}</div>
+        <div class="link-preview">${link.desc}</div>
+        </div>`;
+
+      // If link.nsfw is true, override click behavior
+      if (isNSFW) {
+        a.removeAttribute("href");
+        a.removeAttribute("target");
+        a.style.border = "2px solid #ff4081";
+        a.style.cursor = "pointer";
+        a.style.userSelect = "none";
+        a.onclick = (e) => {
+        e.preventDefault();
+        showNSFWModal(link, openInNewTab);
+        };
+      }
+
+      linksEl.appendChild(a);
       });
     });
 
@@ -349,10 +421,182 @@ if (config.discordId) {
     });
 }
 
-    // Terminal mode toggle (optional button)
+    // Bio styles with entrance animations
+    const bioEl = document.getElementById("bio");
+
+    function animateTerminal(text, el) {
+      el.textContent = "$ whoami\n> ";
+      let i = 0;
+      const lines = text.split("\n");
+      let lineIdx = 0, charIdx = 0;
+      function type() {
+      if (lineIdx < lines.length) {
+        if (charIdx < lines[lineIdx].length) {
+        el.textContent += lines[lineIdx][charIdx++];
+        setTimeout(type, 40);
+        } else {
+        el.textContent += "\n";
+        lineIdx++;
+        charIdx = 0;
+        setTimeout(type, 40);
+        }
+      }
+      }
+      type();
+    }
+
+    function animateBubble(text, el) {
+      el.className = "bio-bubble";
+      const lines = text.split("\n");
+      el.innerHTML = lines.map(line => `<span class="bubble" style="opacity:0;">${line}</span>`).join("<br>");
+      setTimeout(() => {
+      el.querySelectorAll(".bubble").forEach(span => {
+        span.style.transition = "opacity 0.7s cubic-bezier(.68,-0.55,.27,1.55)";
+        span.style.opacity = 1;
+      });
+      }, 100);
+    }
+
+    function animateCard(text, el) {
+      el.className = "bio-card";
+      const lines = text.split("\n");
+      el.innerHTML = `<div class="card" style="transform:scale(0.8);opacity:0;">${lines.map(line => `<div>${line}</div>`).join("")}</div>`;
+      setTimeout(() => {
+      const card = el.querySelector(".card");
+      card.style.transition = "transform 0.5s cubic-bezier(.68,-0.55,.27,1.55), opacity 0.5s";
+      card.style.transform = "scale(1)";
+      card.style.opacity = 1;
+      }, 100);
+    }
+
+    function animateRainbow(text, el) {
+      el.className = "bio-rainbow";
+      const lines = text.split("\n");
+      el.innerHTML = lines.map(line =>
+      `<span style="background: linear-gradient(90deg, #ff4081, #43aa8b, #f9c74f, #577590); -webkit-background-clip: text; color: transparent; font-weight: bold; opacity:0;">${line}</span>`
+      ).join("<br>");
+      setTimeout(() => {
+      el.querySelectorAll("span").forEach(span => {
+        span.style.transition = "opacity 0.8s";
+        span.style.opacity = 1;
+      });
+      }, 100);
+    }
+
+    function animateMinimal(text, el) {
+      el.className = "bio-minimal";
+      el.textContent = "";
+      const lines = text.split("\n");
+      let lineIdx = 0, charIdx = 0;
+      function type() {
+      if (lineIdx < lines.length) {
+        if (charIdx < lines[lineIdx].length) {
+        el.textContent += lines[lineIdx][charIdx++];
+        setTimeout(type, 25);
+        } else {
+        if (lineIdx < lines.length - 1) el.textContent += "\n";
+        lineIdx++;
+        charIdx = 0;
+        setTimeout(type, 25);
+        }
+      }
+      }
+      type();
+    }
+
+    // New bio types
+
+    // Fade-in lines
+    function animateFade(text, el) {
+      el.className = "bio-fade";
+      const lines = text.split("\n");
+      el.innerHTML = lines.map(line => `<div style="opacity:0;transition:opacity 0.7s;">${line}</div>`).join("");
+      setTimeout(() => {
+      el.querySelectorAll("div").forEach((div, i) => {
+        setTimeout(() => { div.style.opacity = 1; }, i * 120);
+      });
+      }, 100);
+    }
+
+    // Typewriter with blinking cursor
+    function animateTypewriter(text, el) {
+      el.className = "bio-typewriter";
+      el.innerHTML = `<span id="typewriter"></span><span class="cursor" style="font-weight:bold;">|</span>`;
+      const tw = el.querySelector("#typewriter");
+      let i = 0;
+      function type() {
+      if (i <= text.length) {
+        tw.textContent = text.slice(0, i);
+        i++;
+        setTimeout(type, 35);
+      }
+      }
+      type();
+      // Blinking cursor
+      setInterval(() => {
+      el.querySelector(".cursor").style.opacity =
+        el.querySelector(".cursor").style.opacity === "0" ? "1" : "0";
+      }, 500);
+    }
+
+    // Slide-in from left
+    function animateSlide(text, el) {
+      el.className = "bio-slide";
+      const lines = text.split("\n");
+      el.innerHTML = lines.map(line => `<div style="transform:translateX(-40px);opacity:0;transition:all 0.6s;">${line}</div>`).join("");
+      setTimeout(() => {
+      el.querySelectorAll("div").forEach((div, i) => {
+        setTimeout(() => {
+        div.style.transform = "translateX(0)";
+        div.style.opacity = 1;
+        }, i * 100);
+      });
+      }, 100);
+    }
+    // Zoom-in letters
+    function animateZoom(text, el) {
+      el.className = "bio-zoom";
+      el.innerHTML = "";
+      const lines = text.split("\n");
+      lines.forEach((line, idx) => {
+        const lineDiv = document.createElement("div");
+        line.split("").forEach((char, i) => {
+          const span = document.createElement("span");
+          // Preserve spaces visually
+          span.textContent = char === " " ? "\u00A0" : char;
+          span.style.display = "inline-block";
+          span.style.transform = "scale(0.5)";
+          span.style.opacity = "0";
+          span.style.transition = "transform 0.3s, opacity 0.3s";
+          setTimeout(() => {
+            span.style.transform = "scale(1)";
+            span.style.opacity = "1";
+          }, 100 + i * 30 + idx * 200);
+          lineDiv.appendChild(span);
+        });
+        el.appendChild(lineDiv);
+      });
+    }
+
     if (config.bioStyle === "terminal") {
-      bioEl.classList.add("terminal");
-      bioEl.textContent = `$ whoami\n> ${config.bio}`;
+      bioEl.className = "terminal";
+      animateTerminal(config.bio, bioEl);
+    } else if (config.bioStyle === "bubble") {
+      animateBubble(config.bio, bioEl);
+    } else if (config.bioStyle === "card") {
+      animateCard(config.bio, bioEl);
+    } else if (config.bioStyle === "rainbow") {
+      animateRainbow(config.bio, bioEl);
+    } else if (config.bioStyle === "minimal") {
+      animateMinimal(config.bio, bioEl);
+    } else if (config.bioStyle === "fade") {
+      animateFade(config.bio, bioEl);
+    } else if (config.bioStyle === "typewriter") {
+      animateTypewriter(config.bio, bioEl);
+    } else if (config.bioStyle === "slide") {
+      animateSlide(config.bio, bioEl);
+    } else if (config.bioStyle === "zoom") {
+      animateZoom(config.bio, bioEl);
     }
   });
 

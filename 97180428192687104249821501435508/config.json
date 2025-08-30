@@ -1,0 +1,72 @@
+{
+  "name": "Luna But Lewder",
+  "bio": "Horny gremlin of the internet. Nothing much to see here, just some lewds and stuff.\nMight add more in the future if I feel like it.",
+  "avatar": "https://pbs.twimg.com/profile_images/1840539738362572800/8dJH2UO0_400x400.jpg",
+  "bioStyle": "slide",
+  "discordId": "257124488141864960",
+  "profile": {
+    "altnames": "Lulu, Lu, Luni",
+    "pronouns": "She/Her/They/Them",
+    "location": "Denmark",
+    "relationship": "Smile"
+  },
+  "birthday": {
+    "date": "2004-06-15",
+    "timezone": "Europe/Copenhagen"
+  },
+  "nextCon": {
+    "name": "Eurofurence",
+    "startDate": "2025-09-03",
+    "endDate": "2025-09-07",
+    "location": "Hamburg, Germany"
+  },
+  "categories": [
+    {
+      "name": "Stuff for you horny fucks.",
+      "links": [
+        {
+          "title": "AD Twitter",
+          "url": "https://imluna.dev",
+          "emoji": "🐦",
+          "desc": "Don't expect too much",
+          "nsfw": "true"
+        }
+      ]
+    },
+    {
+      "name": "Simp for the gremlin.",
+      "links": [
+        {
+          "title": "Ko-fi",
+          "url": "https://ko-fi.com/imlunauwu",
+          "emoji": "☕",
+          "desc": "Simp for me"
+        },
+        {
+          "title": "Throne",
+          "url": "https://throne.com/lunauwu",
+          "emoji": "👑",
+          "desc": "Simp for me with gifts"
+        },
+        {
+          "title": "PayPal",
+          "url": "https://www.paypal.com/paypalme/ImUwULuna",
+          "emoji": "💵",
+          "desc": "Simp for me directly"
+        }
+      ]
+    },
+    {
+      "name": "Return to the safe side.",
+      "links": [
+        {
+          "title": "Back to safety",
+          "url": "../",
+          "emoji": "🏠",
+          "desc": "Return to the safe version of the links page.",
+          "newtab": "false"
+        }
+      ]
+    }
+  ]
+}
