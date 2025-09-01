@@ -130,18 +130,7 @@
           "desc": "Alternatively, add me manually. Do not randomly add me, you will be blocked.<br>Username: ImLunaUwU"
         }
       ]
-    },
-    {
-      "name": "NSFW Links",
-      "links": [
-        {
-          "title": "NSFW Links",
-          "url": "/97180428192687104249821501435508/",
-          "emoji": "🔞",
-          "desc": "NSFW content. You must be 18+ to enter.",
-          "nsfw": "true",
-          "newtab": "false"
-        }
+    }
       ]
     }
   ]
