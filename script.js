@@ -236,40 +236,65 @@ fetch("config.json")
       title.className = "link-category-title"; // Optional for styling
       linksEl.appendChild(title);
 
-      // Render links directly under the heading
-      cat.links.forEach(link => {
+    cat.links.forEach(link => {
       const isNSFW = link.nsfw === true || link.nsfw === "true";
-      // Respect link.newtab if present, otherwise default to true
       const openInNewTab = link.hasOwnProperty("newtab")
         ? (link.newtab === true || link.newtab === "true")
         : true;
-
+    
       const a = document.createElement("a");
       a.className = "link-card";
-      a.href = link.url;
-      if (openInNewTab) a.target = "_blank";
+    
+      // Handle copy links
+      if (link.copy) {
+        a.href = "#";
+        a.onclick = (e) => {
+          e.preventDefault();
+          navigator.clipboard.writeText(link.copy).then(() => {
+            const previewEl = a.querySelector(".link-preview");
+            const originalHTML = previewEl.innerHTML;
+        
+            // Show temporary confirmation
+            previewEl.innerHTML = "<span style='color:#43aa8b;'>✅ Copied!</span>";
+        
+            // Restore after delay
+            setTimeout(() => {
+              previewEl.innerHTML = originalHTML;
+            }, 1500);
+          });
+        };
+      } 
+      // Handle normal URL links
+      else if (link.url) {
+        a.href = link.url;
+        if (openInNewTab) a.target = "_blank";
+    
+        // If link.nsfw is true, override click behavior
+        if (isNSFW) {
+          a.removeAttribute("href");
+          a.removeAttribute("target");
+          a.style.border = "2px solid #ff4081";
+          a.style.cursor = "pointer";
+          a.style.userSelect = "none";
+          a.onclick = (e) => {
+            e.preventDefault();
+            showNSFWModal(link, openInNewTab);
+          };
+        }
+      }
+    
+      // Shared visual layout
       a.innerHTML = `
         <div class="link-emoji">${link.emoji}</div>
         <div>
-        <div><strong>${link.title}</strong>${isNSFW ? ' <span style="color:#ff4081;font-size:1.2em;" title="NSFW">🔞</span>' : ''}</div>
-        <div class="link-preview">${link.desc}</div>
-        </div>`;
-
-      // If link.nsfw is true, override click behavior
-      if (isNSFW) {
-        a.removeAttribute("href");
-        a.removeAttribute("target");
-        a.style.border = "2px solid #ff4081";
-        a.style.cursor = "pointer";
-        a.style.userSelect = "none";
-        a.onclick = (e) => {
-        e.preventDefault();
-        showNSFWModal(link, openInNewTab);
-        };
-      }
-
+          <div><strong>${link.title}</strong>${isNSFW ? ' <span style="color:#ff4081;font-size:1.2em;" title="NSFW">🔞</span>' : ''}</div>
+          <div class="link-preview">${link.desc}</div>
+        </div>
+      `;
+    
       linksEl.appendChild(a);
-      });
+    });
+
     });
 
 // Next Con
