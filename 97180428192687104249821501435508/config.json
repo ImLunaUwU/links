@@ -28,7 +28,14 @@
           "title": "AD Twitter",
           "url": "https://x.com/AfterDarkLuna",
           "emoji": "🐦",
-          "desc": "Don't expect too much",
+          "desc": "Lewd tweets and such for the horny creatures.",
+          "nsfw": "true"
+        },
+        {
+          "title": "Fansly",
+          "url": "https://fansly.com/ImLuna/",
+          "emoji": "🔥",
+          "desc": "Twitter wasn't enough? Have some of the extra spicy content here. Requests are welcome.",
           "nsfw": "true"
         }
       ]
