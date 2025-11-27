@@ -477,8 +477,6 @@ if (config.discordId) {
       setTimeout(() => {
       el.querySelectorAll(".bubble").forEach(span => {
         span.style.transition = "opacity 0.7s cubic-bezier(.68,-0.55,.27,1.55)";
-        span.style.marginBottom = ".5rem";
-        span.style.marginTop = ".5rem";
         span.style.opacity = 1;
       });
       }, 100);
