@@ -150,13 +150,13 @@ footer {
 
 /* Bubble style */
 .bio-bubble .bubble {
-  background: #ff4081;
+  background: #001b3d;
   color: #fff;
   padding: 0.8rem 1.5rem;
   border-radius: 2rem;
   font-size: 1.1em;
   display: inline-block;
-  box-shadow: 0 2px 8px rgba(255,64,129,0.12);
+  box-shadow: 0 2px 8px rgba(64, 124, 255, 0.12);
 }
 
 /* Card style */

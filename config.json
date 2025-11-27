@@ -1,8 +1,8 @@
 {
   "name": "Luna",
-  "bio": "Digital chaos gremlin & toolmaker. Former gang monkey, retired staff for larger groups & The Furry Hideout (VRChat). Now promoted to \"Ban On Sight\". There's an easter egg somewhere on this page. Find it if you can! 🦊",
+  "bio": "The end is near. Luna is done fighting for herself since people want to see her suffer.\nCongrats, you win. You broke her and hunted her to the point of no return.\nEnjoy your victory, because Luna wont be here for much longer. She is tired of this world. She just wants to rest now. Goodbye. <3",
   "avatar": "https://avatars.githubusercontent.com/u/32457983?v=4",
-  "bioStyle": "terminal",
+  "bioStyle": "bubble",
   "discordId": "257124488141864960",
   "profile": {
     "altnames": "Lulu, Lu, Luni",
@@ -72,56 +72,10 @@
           "desc": "Look at my weird tweets (Little Activity)"
         },
         {
-          "title": "VRChat Profile",
-          "url": "https://vrchat.com/home/user/usr_75f061d8-6189-443c-b83c-0e8f9f01c153",
-          "emoji": "🕶️",
-          "desc": "Please talk to me before adding."
-        },
-        {
           "title": "Pronouns Page",
           "url": "https://en.pronouns.page/@LunaUwU",
           "emoji": "⚧️",
           "desc": "Because why not."
-        },
-        {
-          "title": "Discord",
-          "copy": "imlunauwu",
-          "emoji": "👾",
-          "desc": "Click to copy my Discord username. Do not randomly add me, you will be blocked.<br>Username: imlunauwu"
-        },
-        {
-          "title": "YouTube",
-          "url": "https://www.youtube.com/@lunalikesgirls",
-          "emoji": "📺",
-          "desc": "My YouTube channel is currently inactive."
-        },
-        {
-          "title": "TikTok",
-          "url": "https://www.tiktok.com/@imlunauwu",
-          "emoji": "📹",
-          "desc": "Like my YT, TikTok is also more or less inactive."
-        }
-      ]
-    },
-    {
-      "name": "Recent Projects",
-      "links": [
-        {
-          "title": "Audio Mixer",
-          "url": "https://github.com/ImLunaUwU/Audio-Mixer/",
-          "emoji": "🎛️",
-          "desc": "Free and simple alternative to VoiceMeeter"
-        }
-      ]
-    },
-    {
-      "name": "Business Stuff",
-      "links": [
-        {
-          "title": "Email",
-          "url": "mailto://contact@lunauwu.net",
-          "emoji": "📧",
-          "desc": "My business email. Do not mail me randomly, you will be blocked."
         },
         {
           "title": "Discord",
