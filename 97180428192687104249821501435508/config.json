@@ -15,10 +15,10 @@
     "timezone": "Europe/Copenhagen"
   },
   "nextCon": {
-    "name": "Eurofurence",
-    "startDate": "2026-08-19",
-    "endDate": "2026-08-23",
-    "location": "Hamburg, Germany"
+    "name": "n/a",
+    "startDate": "202x-mm-dd",
+    "endDate": "202x-mm-dd",
+    "location": "n/a"
   },
   "categories": [
     {
