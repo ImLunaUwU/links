@@ -37,6 +37,12 @@
           "desc": "Learn more about me"
         },
         {
+          "title": "Deadstop Execution",
+          "url": "https://discord.gg/9jYQFyh5Qz",
+          "emoji": "💀",
+          "desc": "Simple alerts if bad actors are in your VRChat instance."
+        },
+        {
           "title": "Ko-fi",
           "url": "https://ko-fi.com/imlunauwu",
           "emoji": "☕",
